@@ -12,8 +12,6 @@
     <script src="exports\geojson\oshana.geojson"></script>
     <script src="exports\geojson\buffer_4326.geojson"></script>
     <script src="exports\geojson\soils4326.geojson"></script>
-    <script src="exports\geojson\locaities.geojson"></script>
-    <script src="exports\geojson\boreholes.geojson"></script>
     <style type="text/css">
         #map {
             height: 600px;
@@ -24,7 +22,9 @@
     <h1>Oshana Region</h1>
     <div id="map"></div>
     <script >
+
         function undesirable(feature){
+            console.log(feature)
             if (feature=0){
                 return'red';    
             }
@@ -102,28 +102,13 @@
         
        map.fitBounds(oshana.getBounds());
 
-       L.marker([43.8476, 18.3564]).addTo(map)
+       
     
        
 
 
-       var legend = L.control({position: "bottomright"});
 
-       legend.onAdd = function(map){
-           var div = L.DomUtil.create('div','legend');
-           var labels =[
-           'undesirable',
-           'desirsble' ];
-           var gridcode = [1,0];
-            div.innerHTML = '<div><b>Legend</b></div>';
-            for(var i = -1;i<gridcode.length;i++){
-            div.innerHTML+='<i style=background:'+ undesirable+">&nbsp:&nbsp;</i>;"
-            +labels[i]+'<br/>'
-            }
-            return div;
 
-       }
-       Legend.addTo(map);
     </script>
 </body>
 

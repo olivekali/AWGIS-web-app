@@ -14,7 +14,7 @@
         <script src="exports\geojson\bz.geojson"></script>
         <script src="exports\geojson\localities.geojson"></script>
         <script src="exports\geojson\mainroads.geojson"></script>
-        <script src="qgis2web_expressions.js"></script>
+        <script src="exports\geojson\districtroads.geojson"></script>
         <script src="leaflet.js"></script>
         <script src="leaflet.rotatedMarker.js"></script>
         <script src="leaflet-hash.js"></script>
@@ -115,6 +115,32 @@
                 interactive: false
                 }
             }
+
+            function district(feature){
+                return {
+                opacity: 1,
+                color: 'grey',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false
+                }
+            }
+
+            function trunkroad(feature){
+                return {
+                opacity: 1,
+                color: 'grey',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false
+                }
+            }
             var map = L.map('map').setView([43.8476, 18.3564], 13);
     
             
@@ -130,8 +156,7 @@
             ).addTo(map);
 
             var suitable = new L.geoJSON(
-                suitable,
-             ).addTo(map)
+                suitable).addTo(map)
 
             
             var bz = new L.geoJSON(
@@ -146,6 +171,14 @@
 
                 var mainroads = new L.geoJSON(
                 mainroads,{style:roadsmain}).addTo(map);
+
+                var districtroads = new L.geoJSON(
+                districtroads,{style:district}).addTo(map);
+
+
+                var trunkroads = new L.geoJSON(
+                trunkroads,{style:trunkroad}).addTo(map);
+
 
             
            map.fitBounds([[-19.179628296719148,14.901317346834826],[-17.646541533468767,17.374980737798612]]);

@@ -54,8 +54,9 @@
                     lineJoin: 'miter',
                     weight: 1.0, 
                     fill: true,
-                    fillOpacity: 1,
-                    interactive: false,}
+                    fillOpacity: 0.6,
+                    interactive: false,
+                    color:"green"}
                     }
                 
             
@@ -90,12 +91,12 @@
 
             function locals(feature){
                 return {
-                opacity: 1,
+                opacity: 0.7,
                 color: 'rgba(223,213,213,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1, 
+                weight: 0.5, 
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(190,207,80,0.0)',
@@ -141,6 +142,33 @@
                 interactive: false
                 }
             }
+
+            function river(feature){
+                return{  opacity: 1,
+                color: 'rgba(8,12,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,}
+            }
+
+            function landfill(feature){
+                return {
+                radius: 2.4000000000000004,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(83,251,42,1.0)',
+                interactive: false,
+            }}
+
             var map = L.map('map').setView([43.8476, 18.3564], 13);
     
             
@@ -155,16 +183,16 @@
                 {style:oshanastyle}
             ).addTo(map);
 
-            var suitable = new L.geoJSON(
-                suitable).addTo(map)
+             var suitable = new L.geoJSON(
+                suitable,{style:landfill}).addTo(map)
 
             
-            var bz = new L.geoJSON(
+             var bz = new L.geoJSON(
                 bz,{style:bzstyle}).addTo(map);
             
             
                 var rivers = new L.geoJSON(
-                rivers).addTo(map);
+                rivers,{style:river}).addTo(map);
             
                 var local = new L.geoJSON(
                 localities,{style:locals}).addTo(map);

@@ -1,115 +1,164 @@
 <DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8"/>
-<meta name ="viewpoint" content="width=device-width, initial-scale=1"/>
-    <meta charset="UTF-8" />
-    <meta name="viewpoint" content="width=device-width, initial-scale=1" />
-    <title>Oshana dumpsites</title>
-    <!--leaflet-->
-    <link rel="stylesheet" href="leaflet.css" />
-    <script src="leaflet.js"></script>
-    <script src="exports\geojson\oshana.geojson"></script>
-    <script src="exports\geojson\buffer_4326.geojson"></script>
-    <script src="exports\geojson\soils4326.geojson"></script>
-    <style type="text/css">
-        #map {
-            height: 600px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Oshana Region</h1>
-    <div id="map"></div>
-    <script >
-
-        function undesirable(feature){
-            console.log(feature)
-            if (feature=0){
-                return'red';    
-            }
-            else if(feature = 1){
-                return 'green';
-            }
-            else{
-                return 'black';66
-            }
-
-        }
-        function oshanastyle(feature){
-            return{
-                fillcolor:"white",
-                weight:2,
-                opacity:0.9,
-                color: "black",
-                dashArray: 3,
-                fillopacity:0,
-            }
-        }
-
-        function bufferstyle(feature){
-            return{
-                fillcolor: undesirable(feature.properties.OBJECTID.Id.gridcode),
-                weight:2,
-                opacity:0.9,
-                color: "yellow",
-                fillopacity:0.6,
-            }
-        }
-
-        function soilsstyle(feature){
-            return{
-                fillcolor:"brown",
-                weight:2,
-                opacity:0.9,
-                color: "brown",
-                dashArray: 2,
-                fillopacity:0.9,
-            }
-        }
-
-        function rocksstyle(feature){
-            return{
-                fillcolor:"green",
-                weight:5,
-                opacity:1,
-                color: "green",
-                fillopacity:1,
-            }
-        }
-        var map = L.map('map').setView([43.8476, 18.3564], 13);
-
-        var oshana = L.geoJSON(
-            oshana,
-            {style:oshanastyle}
-        ).addTo(map);
+    <html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewpoint" content="width=device-width, initial-scale=1" />
+        <title>Oshana dumpsites</title>
+        <!--leaflet-->
+        <link rel="stylesheet" href="leaflet.css" />
+        <script src="leaflet.js"></script>
+        <script src="exports\geojson\oshana.geojson"></script>
+        <script src="exports\geojson\rivers.geojson"></script>
+        <script src="exports\geojson\soils4326.geojson"></script>
+        <script src="exports\geojson\suitable.geojson"></script>
+        <script src="exports\geojson\bz.geojson"></script>
+        <script src="exports\geojson\localities.geojson"></script>
+        <script src="exports\geojson\mainroads.geojson"></script>
+        <script src="qgis2web_expressions.js"></script>
+        <script src="leaflet.js"></script>
+        <script src="leaflet.rotatedMarker.js"></script>
+        <script src="leaflet-hash.js"></script>
         
-        var soils = L.geoJSON(
-            soils,
-            {style:soilsstyle}
+        <style type="text/css">
+            #map {
+                height: 600px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <h1>Oshana Region</h1>
+        <div id="map"></div>
+        <script >
+
+            function oshanastyle(feature){
+                return{
+                    opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,113,88,0.0)',
+                interactive: false,
+                }
+            }
+    
+            function bzstyle(feature){
+                    return {
+                    fillColor:unsuitablezones(feature.properties.gridcode),
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    interactive: false,}
+                    }
+                
+            
+            function soildesc(soil1_desc){
+                if (soil1_desc == 'ferralic Arenosols'){return 'rgba(165,169,82,1.0)'}
+                else if(soil1_desc =='haplic Calcisols'){return 'rgba(35,35,35,1.0)'}
+                else if(soil1_desc =='mollic Leptosols'){return 'rgba(69,29,217,1.0)'}
+                else if(soil1_desc =='sodic Cambisols'){return 'rgba(197,234,158,1.0)'}
+                else {return 'brown'}
+            }
+    
+            function soilsstyle(feature){
+                return{
+                    color:soildesc(feature.properties.soil1_desc),
+                    opacity: 1,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                interactive: true,
+                }
+            }
+            function unsuitablezones(gridcode){
+                if (gridcode ==0){
+                    return 'rgba(29,194,60,0.8941176470588236)'}
+
+                else if (gridcode ==1){
+                    return 'rgba(28,174,236,0.0)'}
+            }
+
+            function locals(feature){
+                return {
+                opacity: 1,
+                color: 'rgba(223,213,213,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,207,80,0.0)',
+                interactive: true,
+                }
+            }
+
+            function roadsmain(feature){
+                return {
+                opacity: 1,
+                color: 'grey',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false
+                }
+            }
+            var map = L.map('map').setView([43.8476, 18.3564], 13);
+    
+            
+            
+            var soils = new L.geoJSON(
+                soils,
+                {style:soilsstyle}
+                ).addTo(map);
+            
+            var oshana = new L.geoJSON(
+                oshana,
+                {style:oshanastyle}
             ).addTo(map);
 
-      
-       
+            var suitable = new L.geoJSON(
+                suitable,
+             ).addTo(map)
 
-        var buffer = L.geoJSON(
-            buffer_4326,
-            buffer_4326,
-        {style:bufferstyle}
-        ).addTo(map);
-        
-        var boreholes = L.geoJSON(boreholes).addTo(map);
-        
-       map.fitBounds(oshana.getBounds());
+            
+            var bz = new L.geoJSON(
+                bz,{style:bzstyle}).addTo(map);
+            
+            
+                var rivers = new L.geoJSON(
+                rivers).addTo(map);
+            
+                var local = new L.geoJSON(
+                localities,{style:locals}).addTo(map);
 
-       
+                var mainroads = new L.geoJSON(
+                mainroads,{style:roadsmain}).addTo(map);
+
+            
+           map.fitBounds([[-19.179628296719148,14.901317346834826],[-17.646541533468767,17.374980737798612]]);
     
-       
-
-
-
-
-    </script>
-</body>
-
-</html> 
+           
+        
+           
+    
+    
+          
+    
+           
+        </script>
+    </body>
+    
+    </html> 

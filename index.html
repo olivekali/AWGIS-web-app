@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewpoint" content="width=device-width, initial-scale=1" />
-        <title>Oshana dumpsites</title>
+        <title>index h</title>
         <!--leaflet-->
         <link rel="stylesheet" href="leaflet.css" />
         <script src="leaflet.js"></script>
@@ -16,8 +16,6 @@
         <script src="exports\geojson\mainroads.geojson"></script>
         <script src="exports\geojson\districtroads.geojson"></script>
         <script src="leaflet.js"></script>
-        <script src="leaflet.rotatedMarker.js"></script>
-        <script src="leaflet-hash.js"></script>
         
         <style type="text/css">
             #map {
@@ -87,6 +85,7 @@
 
                 else if (gridcode ==1){
                     return 'rgba(28,174,236,0.0)'}
+
             }
 
             function locals(feature){
@@ -156,7 +155,7 @@
 
             function landfill(feature){
                 return {
-                radius: 2.4000000000000004,
+                radius: 4.4000000000000004,
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -183,8 +182,9 @@
                 {style:oshanastyle}
             ).addTo(map);
 
-             var suitable = new L.geoJSON(
-                suitable,{style:landfill}).addTo(map)
+            var suitable = new L.geoJSON(
+                suitable,{style:landfill
+                }).addTo(map)
 
             
              var bz = new L.geoJSON(
@@ -207,18 +207,43 @@
                 var trunkroads = new L.geoJSON(
                 trunkroads,{style:trunkroad}).addTo(map);
 
+                function legend (style){};
 
+                var legend = L.control({position:'bottomright'});
+                legend.onAdd = function (map){
+                    var div = L.DomUtil.create('div','legend');
+                    div.innerHTML = '<div><b>legend</b></div>';
+                    var labels = [
+                        'oshana' ,
+                        'locals',
+                        'districtroads',
+                        'mainroads',
+                        'rivers',
+                        'bufferedzones',
+                        'suitable',
+                        'soils' 
+                     ];
+                     var soildesc2 = [
+                         'ferralic Arenosols',
+                         'haplic Calcisols',
+                         'mollic Leptosols',
+                         'sodic Cambisols'
+                        ];
+                       
+                         for (var i=0 ; i < soildesc2.length; i++)
+                         {
+                           div.innerHTML += '<i style ="bakground:' + soildesc(soildesc2[i]) + 
+                           '">&nbsp;&nbsp;</i>&nbsp;&nbsp'+ soildesc2[i] + '<br/>';
+                         }
+                         return div
+                };
+                legend.addTo(map)
+              
+              
             
            map.fitBounds([[-19.179628296719148,14.901317346834826],[-17.646541533468767,17.374980737798612]]);
     
-           
-        
-           
-    
-    
-          
-    
-           
+     
         </script>
     </body>
     

@@ -20,7 +20,11 @@
         <style type="text/css">
             #map {
                 height: 600px;
-            }
+            };
+            .legend {background:white;
+                    line-height:1.5em};
+            .legend{ width:5em ;
+            float:left};
         </style>
     </head>
     <body>
@@ -206,6 +210,10 @@
 
                 var trunkroads = new L.geoJSON(
                 trunkroads,{style:trunkroad}).addTo(map);
+
+
+
+               // <!--legend to be continued-->>
 
                 function legend (style){};
 

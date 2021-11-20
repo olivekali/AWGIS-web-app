@@ -174,7 +174,9 @@
 
             var map = L.map('map').setView([43.8476, 18.3564], 13);
     
-            
+           
+        
+        
             
             var soils = new L.geoJSON(
                 soils,
@@ -187,8 +189,8 @@
             ).addTo(map);
 
             var suitable = new L.geoJSON(
-                suitable,{style:landfill
-                }).addTo(map)
+                suitable,{style:landfill,}
+                ).addTo(map)
 
             
              var bz = new L.geoJSON(
@@ -211,7 +213,17 @@
                 var trunkroads = new L.geoJSON(
                 trunkroads,{style:trunkroad}).addTo(map);
 
+                var point = [15.794394550218437, -18.35238102001728 ];
+                var marker = L.marker(point).addTo(map)
+            
 
+                var baselayer = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                opacity: 1.0,
+                attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, </a>',
+                 minZoom: 1,
+                 maxZoom: 28,
+            });
+            baselayer.addTo(map)
 
                // <!--legend to be continued-->>
 
@@ -242,6 +254,23 @@
                          {
                            div.innerHTML += '<i style ="bakground:' + soildesc(soildesc2[i]) + 
                            '">&nbsp;&nbsp;</i>&nbsp;&nbsp'+ soildesc2[i] + '<br/>';
+                         }
+
+                    var labels = [
+                        'oshana' ,
+                        'locals',
+                        'districtroads',
+                        'mainroads',
+                        'rivers',
+                        'bufferedzones',
+                        'suitable',
+                        'soils' 
+                     ];
+                       
+                         for (var i=0 ; i < labels.length; i++)
+                         {
+                           div.innerHTML += '<i style ="bakground:' + soildesc(labels[i]) + 
+                           '">&nbsp;&nbsp;</i>&nbsp;&nbsp'+ labels[i] + '<br/>';
                          }
                          return div
                 };

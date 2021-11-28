@@ -22,9 +22,12 @@
                 height: 600px;
             };
             .legend {background:white;
-                    line-height:1.5em};
-            .legend{ width:5em ;
-            float:left};
+                background:rgba( 255, 255, 255,0.8) ;
+                padding:6px 8px 10px;
+                line-height:24px};
+
+            .legend i{ width:18px ;
+            };
         </style>
     </head>
     <body>
@@ -213,8 +216,7 @@
                 var trunkroads = new L.geoJSON(
                 trunkroads,{style:trunkroad}).addTo(map);
 
-                var point = [15.794394550218437, -18.35238102001728 ];
-                var marker = L.marker(point).addTo(map)
+                
             
 
                 var baselayer = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -229,27 +231,16 @@
 
                 function legend (style){};
 
-                var legend = L.control({position:'bottomright'});
+                var legend = L.control({position:'topright'});
                 legend.onAdd = function (map){
                     var div = L.DomUtil.create('div','legend');
                     div.innerHTML = '<div><b>legend</b></div>';
-                    var labels = [
-                        'oshana' ,
-                        'locals',
-                        'districtroads',
-                        'mainroads',
-                        'rivers',
-                        'bufferedzones',
-                        'suitable',
-                        'soils' 
-                     ];
                      var soildesc2 = [
                          'ferralic Arenosols',
                          'haplic Calcisols',
                          'mollic Leptosols',
                          'sodic Cambisols'
                         ];
-                       
                          for (var i=0 ; i < soildesc2.length; i++)
                          {
                            div.innerHTML += '<i style ="bakground:' + soildesc(soildesc2[i]) + 
@@ -259,25 +250,66 @@
                     var labels = [
                         'oshana' ,
                         'locals',
-                        'districtroads',
-                        'mainroads',
                         'rivers',
-                        'bufferedzones',
-                        'suitable',
                         'soils' 
                      ];
-                       
+
+
                          for (var i=0 ; i < labels.length; i++)
                          {
                            div.innerHTML += '<i style ="bakground:' + soildesc(labels[i]) + 
                            '">&nbsp;&nbsp;</i>&nbsp;&nbsp'+ labels[i] + '<br/>';
-                         }
+                         };
+
+                         var roads =[
+                             'Main roads',
+                             'Trunk roads',
+                             'District roads'
+
+                         ]
+                         for (var i=0 ; i < roads.length; i++)
+                         {
+                           div.innerHTML += '<i style ="bakground:' + roadsmain(roads[i]) + 
+                           '">&nbsp;&nbsp;</i>&nbsp;&nbsp'+ roads[i] + '<br/>';
+                         };
+
+                         var bufferedzones =[
+                             'unsuitable',
+                             'suitable'
+                         ]
+
+                         var gridno =[1,0]
+                         for (var i = 0; i < gridno.length; i++)
+                         {
+                           div.innerHTML += '<i style ="bakground:rgba(29,194,60,0.8941176470588236)"' + unsuitablezones(gridno[i]) + 
+                           '">&nbsp;&nbsp;</i>&nbsp;&nbsp'+ bufferedzones[i] + '<br/>';
+                         };
                          return div
                 };
-                legend.addTo(map)
+                legend.addTo(map);
+
+        
               
-              
-            
+           var layers={
+
+           }   
+                
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/suitableareas_11.png" /> suitable areas': layer_suitableareas,
+        '<img src="legend/boreholes_10.png" /> boreholes': layer_boreholes,
+        '<img src="legend/trunkroads_9.png" /> trunk roads': layer_trunkroads,
+        '<img src="legend/rives_8.png" /> rives': layer_rivers,
+        '<img src="legend/Districtroads_7.png" /> Districtroads': layer_Districtroads,
+        '<img src="legend/mainroads_6.png" /> mainroads': layer_mainroads,
+        '<img src="legend/localities_5.png" /> localities': layer_localities,
+        'buffer zones<br /><table><tr><td style="text-align: center;"><img src="legend/bufferzones_4_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/bufferzones_4_11.png" /></td><td>1</td></tr></table>': layer_bufferzones,
+        'soil<br /><table><tr><td style="text-align: center;"><img src="legend/soil_3_ferralicArenosols0.png" /></td><td>ferralic Arenosols</td></tr><tr><td style="text-align: center;"><img src="legend/soil_3_haplicCalcisols1.png" /></td><td>haplic Calcisols</td></tr><tr><td style="text-align: center;"><img src="legend/soil_3_hyposalicArenosols2.png" /></td><td>hyposalic Arenosols</td></tr><tr><td style="text-align: center;"><img src="legend/soil_3_mollicLeptosols3.png" /></td><td>mollic Leptosols</td></tr><tr><td style="text-align: center;"><img src="legend/soil_3_sodicCambisols4.png" /></td><td>sodic Cambisols</td></tr></table>': layer_soil,
+        "slope1": layer_slope1_2,'<img src="legend/oshana_1.png" /> oshana': layer_oshana,
+        "OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+
+       map.createPane('pane_trunkroads_9');
+        map.getPane('pane_trunkroads_9').style.zIndex = 409;
+        map.getPane('pane_trunkroads_9').style['mix-blend-mode'] = 'normal';
            map.fitBounds([[-19.179628296719148,14.901317346834826],[-17.646541533468767,17.374980737798612]]);
     
      
